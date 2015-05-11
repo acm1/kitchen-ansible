@@ -622,6 +622,11 @@ module Kitchen
         end
 
         def prepare_ansible_vault_password_file
+          unless ansible_vault_password_file && File.exist?(ansible_vault_password_file)
+            info 'nothing to do for ansible_vault_password_file'
+            return
+          end
+          
           info('Preparing ansible vault password')
           debug("Copying ansible vault password file from #{ansible_vault_password_file} to #{tmp_ansible_vault_password_file_path}")
           FileUtils.cp(ansible_vault_password_file, tmp_ansible_vault_password_file_path)
